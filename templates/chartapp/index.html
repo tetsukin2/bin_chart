@@ -1,0 +1,150 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Bin Chart</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="{% static 'js/chart.js' %}"></script>
+    <script src="{% static 'js/customer.js' %}"></script>
+    <script src="{% static 'js/bin_map.js' %}"></script>
+  </head>
+  <body class="main-body">
+    <div class="col-parent">
+      <div class="col-1">
+        <form class="chart" id="chart-form">
+          <table class="interactions-table">
+            <tr>
+              <td colspan="4">
+                <p class="title">Bin Chart</p>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <div class="col-1-label">
+                  <label for="customer">Customer:</label>
+                </div>
+                <div class="col-1-select">
+                  <div class="select-with-search-wrapper">
+                    <input
+                      type="text"
+                      class="select-search"
+                      placeholder="Search..."
+                    />
+
+                    <select
+                      id="customer"
+                      name="customer"
+                      class="select-with-search"
+                    >
+                      <option value="" selected disabled>
+                        Select customer
+                      </option>
+                      {% for item in data %}
+                      <option value="{{ item.customer }}">
+                        {{ item.customer }}
+                      </option>
+                      {% endfor %}
+                    </select>
+                  </div>
+                </div>
+              </td>
+              <td colspan="3">
+                <div class="col-1-label">
+                  <label for="product">Product:</label>
+                </div>
+                <div class="col-1-select">
+                  <div class="select-with-search-wrapper">
+                    <input
+                      type="text"
+                      class="select-search"
+                      placeholder="Search..."
+                      disabled
+                    />
+
+                    <select
+                      id="product"
+                      name="product"
+                      class="select-with-search"
+                      disabled
+                    >
+                      <option value="" selected disabled>Select product</option>
+                    </select>
+                  </div>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <div class="col-1-label">
+                  <label for="date_range_start">Start Date:</label>
+                </div>
+                <div class="col-1-input">
+                  <input
+                    type="date"
+                    id="date_range_start"
+                    name="date_range_start"
+                  />
+                </div>
+              </td>
+              <td>
+                <div class="col-1-label">
+                  <label for="date_range_end">End Date:</label>
+                </div>
+                <div class="col-1-input">
+                  <input
+                    type="date"
+                    id="date_range_end"
+                    name="date_range_end"
+                  />
+                </div>
+              </td>
+              <td colspan="2">
+                <div class="col-1-label">
+                  <label class="pass-bin-label" for="pass_bin">Pass Bin:</label>
+                </div>
+                <div class="col-1-input">
+                  <input type="checkbox" id="pass_bin" name="pass_bin" />
+                </div>
+              </td>
+            </tr>
+          </table>
+
+          <div class="col-1-row-3">
+            <div class="col-1-label">
+              <label for="bin_map">Bin Map:</label>
+            </div>
+
+            <div id="bin_map_container" class="bin-map-container">
+              <div id="selected_bins" class="selected-bins"></div>
+            </div>
+            <div id="bin_map_dropdown" class="bin-map-dropdown">
+              <input
+                class="bin-search"
+                type="text"
+                id="bin_search"
+                placeholder="Search bins..."
+              />
+              <ul id="bin_map_list" class="bin-map-list"></ul>
+            </div>
+          </div>
+          <div class="spacer"></div>
+          <div class="generate-chart-btn">
+            <button class="generate-btn" type="button" id="generate-chart">
+              Generate Chart
+            </button>
+          </div>
+        </form>
+      </div>
+      <div class="col-2">
+        <div class="chart-col-container" id="chart-container">
+          <canvas id="myChart"></canvas>
+        </div>
+      </div>
+    </div>
+    {{ data|json_script:"customer-data" }}
+  </body>
+</html>
