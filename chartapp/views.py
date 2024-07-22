@@ -1,3 +1,5 @@
+# views.py
+
 from django.shortcuts import render
 from django.http import JsonResponse
 from .services import fetch_customers_and_products, fetch_bin_map
@@ -28,7 +30,6 @@ def generate_chart(request):
         data = json.loads(request.body)
         print(f"Received data: {data}")
 
-        # Additional validation to ensure all required fields are present
         required_fields = ["product_id", "pass bin", "start_time", "end_time", "bin"]
         missing_fields = [field for field in required_fields if field not in data]
 
@@ -37,18 +38,25 @@ def generate_chart(request):
             print(error_message)
             return JsonResponse({'error': error_message}, status=400)
 
-        # Validate that bins is a list of strings or integers
         if not isinstance(data['bin'], list) or not all(isinstance(bin, (str, int)) for bin in data['bin']):
             error_message = 'Invalid bin format. Expected a list of strings or integers.'
             print(error_message)
             return JsonResponse({'error': error_message}, status=400)
 
-        # Log the data being sent to the external API
         print(f"Sending data to external API: {data}")
 
-        response = requests.post(url, headers=headers, json=data)  # Note the use of 'json=' instead of 'data='
+        response = requests.post(url, headers=headers, json=data) 
 
         if response.status_code == 200:
+            # Record the interaction details to the database
+            interaction = Interaction.objects.create(
+                customer=data.get('customer', 'Unknown'),
+                product=data['product_id'],
+                bin_map=", ".join(map(str, data['bin'])),  # Assuming bin_map is a list of values
+                start_time=data['start_time'],
+                end_time=data['end_time'],
+                pass_bin=data['pass bin']
+            )
             return JsonResponse(response.json(), status=response.status_code)
         else:
             error_message = f'Failed to generate chart. API responded with status {response.status_code}. Details: {response.json()}'

@@ -97,36 +97,24 @@ $(document).ready(function () {
           },
           options: {
             scales: {
-              yAxes: [
-                {
-                  id: "y-histogram",
-                  type: "linear",
-                  position: "left",
-                  ticks: {
-                    beginAtZero: true,
-                    max: Math.max(...histogramYValues) + 5,
-                  },
+              "y-histogram": {
+                type: "linear",
+                position: "left",
+                beginAtZero: true,
+                max: Math.max(...histogramYValues) + 5,
+              },
+              "y-normal": {
+                type: "linear",
+                position: "right",
+                beginAtZero: true,
+                max: Math.max(...normDistYValues) + 1,
+                grid: {
+                  drawOnChartArea: false,
                 },
-                {
-                  id: "y-normal",
-                  type: "linear",
-                  position: "right",
-                  ticks: {
-                    beginAtZero: true,
-                    max: Math.max(...normDistYValues) + 1,
-                  },
-                  gridLines: {
-                    drawOnChartArea: false,
-                  },
-                },
-              ],
-              xAxes: [
-                {
-                  ticks: {
-                    beginAtZero: true,
-                  },
-                },
-              ],
+              },
+              x: {
+                beginAtZero: true,
+              },
             },
           },
         });
@@ -144,6 +132,7 @@ $(document).ready(function () {
 
   $("#generate-chart").click(function () {
     var formData = {
+      customer: $("#customer").val(),
       product_id: parseInt($("#product").val()),
       "pass bin": $("#pass_bin").is(":checked"),
       start_time: $("#date_range_start").val(),
