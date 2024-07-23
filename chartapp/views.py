@@ -48,11 +48,11 @@ def generate_chart(request):
         response = requests.post(url, headers=headers, json=data) 
 
         if response.status_code == 200:
-            # Record the interaction details to the database
+        
             interaction = Interaction.objects.create(
                 customer=data.get('customer', 'Unknown'),
                 product=data['product_id'],
-                bin_map=", ".join(map(str, data['bin'])),  # Assuming bin_map is a list of values
+                bin_map=", ".join(map(str, data['bin'])),  
                 start_time=data['start_time'],
                 end_time=data['end_time'],
                 pass_bin=data['pass bin']

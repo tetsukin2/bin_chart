@@ -11,6 +11,11 @@
     <script src="{% static 'js/chart.js' %}"></script>
     <script src="{% static 'js/customer.js' %}"></script>
     <script src="{% static 'js/bin_map.js' %}"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
   </head>
   <body class="main-body">
     <div class="col-parent">
@@ -83,6 +88,12 @@
                   <label for="date_range_start">Start Date:</label>
                 </div>
                 <div class="col-1-input">
+                  <!-- <input
+                    type="text"
+                    id="date_range"
+                    name="date_range"
+                    placeholder="Select Date Range"
+                  /> -->
                   <input
                     type="date"
                     id="date_range_start"

@@ -1,4 +1,14 @@
 $(document).ready(function () {
+  var today = new Date();
+  var oneMonthAgo = new Date();
+  oneMonthAgo.setMonth(today.getMonth() - 1);
+
+  var todayFormatted = today.toISOString().split("T")[0];
+  var oneMonthAgoFormatted = oneMonthAgo.toISOString().split("T")[0];
+
+  $("#date_range_start").val(oneMonthAgoFormatted);
+  $("#date_range_end").val(todayFormatted);
+
   var customerData = JSON.parse(
     document.getElementById("customer-data").textContent
   );
